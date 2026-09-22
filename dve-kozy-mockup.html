@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<!--
+  ════════════════════════════════════════════════════════════════════
+  ДВЕ КОЗЫ - макет лендинга гончарной мастерской (v1, 22.09.2026)
+  Цены и тексты услуг - из сообщества мастерской ВКонтакте (vk.com/dvekozygoncharka):
+  услуги, статьи «Романтическое свидание» и «Подарочный сертификат», закреплённый пост.
+
+  ЧТО ЗАМЕНИТЬ ПЕРЕД ЗАПУСКОМ - ищите в коде по меткам:
+    ЛОГОТИП      - знак в шапке и футере (сейчас временный жёлтый круг)
+    ФОТО         - плейсхолдеры фотографий
+    ОТЗЫВЫ       - места под настоящие отзывы с Яндекс Карт / ВКонтакте
+    TODO         - часы работы, ссылка на карту, политика конфиденциальности
+    ЧЕРНОВИК     - тексты, которых нет в сообществе, - согласовать с мастерской
+    ЗАПИСЬ       - ссылки онлайн-записи (YCLIENTS / DIKIDI), если подключат
+    FORM_CONFIG  - отправка заявок в Telegram-бота
+  ════════════════════════════════════════════════════════════════════
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Две Козы - гончарная мастерская в Екатеринбурге</title>
+<meta name="description" content="Гончарные мастер-классы, свидания в мастерской и творческие вечера в Екатеринбурге. Можно прийти без опыта - никто не оценивает.">
+<meta name="theme-color" content="#FFF7E6">
+<!-- ЛОГОТИП: иконка вкладки - временный жёлтый круг, заменить на favicon из логотипа -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23FFE15A' stroke='%231B1916' stroke-width='3'/%3E%3Ctext x='32' y='41' font-family='Arial Black,Arial' font-weight='900' font-size='24' text-anchor='middle' fill='%231B1916'%3E2К%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ═════════════ Токены фирменного стиля (по логотипу и обложке сообщества) ═════════════ */
+:root{
+  --paper:#FFF7E6;       /* тёплая бумага */
+  --band:#FFEFC2;        /* жёлтая полоса */
+  --card:#FFFDF7;
+  --yellow:#FFE15A;      /* жёлтый логотипа */
+  --yellow-soft:#FFF1A6;
+  --line:#EBDDBE;
+  --line-2:#D9C79E;
+
+  --ink:#1B1916;         /* чёрный логотипа */
+  --ink-2:#3B352D;
+  --muted:#6A6155;
+
+  --red:#D8452B;         /* клубника и цветы с обложки - декор */
+  --red-ink:#B5321C;     /* красный для кнопок и текста (контраст AA) */
+  --clay:#C9713F;        /* глина */
+
+  --display:'Dela Gothic One', 'Arial Black', Impact, sans-serif;
+  --sans:'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+
+  --radius-lg:28px;
+  --radius:20px;
+  --gutter:clamp(16px, 4vw, 40px);
+  --maxw:1200px;
+  --header-h:76px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --shadow:0 22px 44px -28px rgba(27,25,22,.45);
+  color-scheme:light;
+}
+@media (max-width:640px){ :root{ --header-h:64px; } }
+
+/* ═════════════ База ═════════════ */
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 12px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+@media (max-width:640px){ body{font-size:16px} }
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+h1,h2,h3{margin:0;line-height:1.08;text-wrap:balance}
+h1,h2{font-family:var(--display);font-weight:400;letter-spacing:.005em}
+p,ul,ol{margin:0}
+ul,ol{padding:0;list-style:none}
+::selection{background:var(--yellow);color:var(--ink)}
+:focus-visible{outline:2.5px solid var(--red-ink);outline-offset:3px;border-radius:8px}
+
+.container{width:100%;max-width:calc(var(--maxw) + 2 * var(--gutter));margin:0 auto;padding:0 var(--gutter)}
+.section{position:relative;padding:clamp(72px, 10vw, 124px) 0;overflow:hidden;overflow:clip}
+.section--band{background:var(--band)}
+.section--ink{background:var(--ink);color:var(--paper)}
+.visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip{position:absolute;left:12px;top:-60px;z-index:100;background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:10px;text-decoration:none}
+.skip:focus{top:12px}
+.nowrap{white-space:nowrap}
+.ico{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.todo{outline:1.5px dashed rgba(181,50,28,.55);outline-offset:3px;border-radius:4px}
+
+/* ═════════════ Кнопки ═════════════ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:12px 24px;border-radius:999px;border:2px solid var(--ink);background:none;font-weight:600;font-size:16px;line-height:1.2;text-decoration:none;white-space:nowrap;transition:transform .15s var(--ease),box-shadow .2s var(--ease),background-color .2s}
+.btn:active{transform:translate(2px,2px);box-shadow:none!important}
+.btn--primary{background:var(--yellow);color:var(--ink);box-shadow:4px 4px 0 var(--ink)}
+.btn--primary:hover{background:#FFD83A}
+.btn--ink{background:var(--ink);color:var(--paper)}
+.btn--ink:hover{background:#34302a}
+.btn--ghost{color:var(--ink)}
+.btn--ghost:hover{background:rgba(27,25,22,.05)}
+.btn--light{border-color:var(--paper);color:var(--paper)}
+.btn--light:hover{background:rgba(255,247,230,.08)}
+.btn--lg{min-height:58px;padding:16px 30px;font-size:17px}
+.btn--sm{min-height:44px;padding:9px 20px;font-size:15px}
+.btn__arrow{width:18px;height:18px;transition:transform .2s var(--ease)}
+.btn:hover .btn__arrow{transform:translateX(3px)}
+
+/* ═════════════ Шапка ═════════════ */
+.header{position:sticky;top:0;z-index:50;background:rgba(255,247,230,.88);-webkit-backdrop-filter:saturate(1.2) blur(14px);backdrop-filter:saturate(1.2) blur(14px);border-bottom:2px solid transparent;transition:border-color .3s}
+.header.is-scrolled{border-bottom-color:var(--ink)}
+.header__inner{display:flex;align-items:center;gap:20px;height:var(--header-h)}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0}
+.logo__mark{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--yellow);border:2px solid var(--ink);font-family:var(--display);font-size:15px;line-height:1;flex-shrink:0}
+.logo__text{display:flex;flex-direction:column;line-height:1}
+.logo__name{font-family:var(--display);font-size:23px;letter-spacing:.01em;text-transform:uppercase}
+.logo__sub{font-size:12px;color:var(--muted);margin-top:5px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.nav{display:flex;align-items:center;gap:2px;margin-left:auto}
+.nav a{padding:8px 13px;border-radius:999px;text-decoration:none;font-size:15px;font-weight:500;color:var(--ink-2);transition:background-color .2s}
+.nav a:hover{background:var(--yellow-soft)}
+.nav a.is-active{background:var(--yellow)}
+.nav__cta{display:none}
+.header__cta{margin-left:10px}
+.burger{display:none;position:relative;width:46px;height:46px;border:2px solid var(--ink);border-radius:50%;background:var(--card);flex-shrink:0}
+.burger span{position:absolute;left:12px;right:12px;height:2px;background:var(--ink);transition:transform .3s var(--ease),top .3s var(--ease)}
+.burger span:nth-child(1){top:16px}
+.burger span:nth-child(2){top:25px}
+.burger[aria-expanded="true"] span:nth-child(1){top:20.5px;transform:rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){top:20.5px;transform:rotate(-45deg)}
+@media (max-width:1100px){
+  .burger{display:block}
+  .header__cta{margin-left:auto}
+  .nav{position:fixed;left:0;right:0;top:var(--header-h);max-height:calc(100dvh - var(--header-h));overflow:auto;flex-direction:column;align-items:stretch;gap:0;margin:0;padding:8px var(--gutter) 28px;background:var(--paper);border-bottom:2px solid var(--ink);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s var(--ease),transform .25s var(--ease),visibility 0s .25s}
+  .nav.is-open{opacity:1;visibility:visible;transform:none;transition:opacity .25s var(--ease),transform .25s var(--ease)}
+  .nav a{padding:15px 2px;border-radius:0;border-bottom:1px solid var(--line);font-family:var(--display);font-size:20px;color:var(--ink)}
+  .nav a:hover,.nav a.is-active{background:none;color:var(--red-ink)}
+}
+@media (max-width:520px){
+  .header__cta{display:none}
+  .burger{margin-left:auto}
+  .nav__cta{display:flex;margin-top:22px}
+  .logo__name{font-size:20px}
+  .logo__mark{width:40px;height:40px;font-size:13px}
+}
+
+/* ═════════════ Заголовки разделов ═════════════ */
+.sec-head{margin-bottom:clamp(40px, 6vw, 64px)}
+.sec-head--split{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px 40px}
+.sec-kicker{display:inline-flex;align-items:center;gap:10px;margin-bottom:16px;padding:6px 14px;border:2px solid var(--ink);border-radius:999px;background:var(--card);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.sec-kicker::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--red)}
+.sec-title{font-size:clamp(34px, 5.2vw, 62px);text-transform:uppercase}
+.sec-title mark{background:none;color:inherit;box-shadow:inset 0 -.32em 0 var(--yellow)}
+.sec-aside{max-width:380px;color:var(--muted);font-size:16px}
+.section--ink .sec-kicker{background:transparent;border-color:var(--paper);color:var(--paper)}
+.section--ink .sec-title mark{box-shadow:inset 0 -.32em 0 var(--red)}
+
+/* ═════════════ Фото-плейсхолдеры «полароид с кнопкой» (как на обложке) ═════════════ */
+.polaroid{position:relative;background:#fff;padding:12px 12px 44px;border-radius:6px;box-shadow:var(--shadow);transform:rotate(var(--r, -2deg))}
+.polaroid::before{content:"";position:absolute;top:-9px;left:50%;width:22px;height:22px;margin-left:-11px;border-radius:50%;z-index:2;background:radial-gradient(circle at 35% 35%, #FF9C85, var(--red) 55%, #9C2A17);box-shadow:0 3px 5px rgba(0,0,0,.28)}
+.polaroid__cap{position:absolute;left:14px;right:14px;bottom:10px;font-size:13.5px;font-weight:600;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.photo{position:relative;overflow:hidden;border-radius:3px;background:#E9D7B8}
+.photo > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px;text-align:center;color:#6B4A2C;
+  background:radial-gradient(120% 90% at 20% 10%, #FBEAD0 0%, transparent 60%),radial-gradient(90% 80% at 90% 100%, #D9955F 0%, transparent 62%),linear-gradient(155deg,#F1DCBF,#E0B98E)}
+.ph__icon{width:34px;height:34px;opacity:.7}
+.ph__label{font-size:13.5px;font-weight:600;max-width:220px;line-height:1.35}
+
+/* ═════════════ Появление при прокрутке ═════════════ */
+.js .reveal{opacity:0;transform:translateY(18px);transition:opacity .75s var(--ease),transform .75s var(--ease);transition-delay:calc(var(--d, 0) * 90ms)}
+.js .reveal.is-visible{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .js .reveal{opacity:1;transform:none;transition:none}
+  *{transition-duration:.01ms !important}
+}
+
+/* ═════════════ 1. Первый экран ═════════════ */
+.hero{padding:clamp(34px, 5vw, 64px) 0 clamp(72px, 9vw, 116px)}
+.hero__grid{display:grid;grid-template-columns:minmax(0, 1.05fr) minmax(0, .95fr);gap:clamp(36px, 5vw, 80px);align-items:center}
+.hero__eyebrow{display:inline-flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.tag{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;border:2px solid var(--ink);background:var(--card);font-size:14px;font-weight:600}
+.tag--yellow{background:var(--yellow)}
+.hero__title{font-size:clamp(58px, 9vw, 124px);line-height:.92;text-transform:uppercase}
+.hero__title span{display:inline-block;padding:0 .08em;background:var(--yellow);border:3px solid var(--ink);border-radius:.18em;transform:rotate(-2deg);margin-top:.08em}
+.hero__slogan{margin-top:26px;font-size:clamp(21px, 2.3vw, 27px);line-height:1.35;font-weight:600;max-width:560px}
+.hero__text{margin-top:16px;max-width:520px;color:var(--muted)}
+.hero__actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.hero__facts{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:18px;margin-top:44px;padding-top:26px;border-top:2px dashed var(--line-2)}
+.fact b{display:block;font-family:var(--display);font-weight:400;font-size:23px;white-space:nowrap}
+.fact span{display:block;margin-top:4px;font-size:14px;line-height:1.4;color:var(--muted)}
+
+.hero__media{position:relative;min-height:540px}
+.hero__media .polaroid{position:absolute}
+.hero__p1{width:56%;left:0;top:0;--r:-4deg;z-index:1}
+.hero__p2{width:46%;right:2%;top:8%;--r:5deg;z-index:2}
+.hero__p3{width:47%;left:29%;bottom:0;--r:2deg;z-index:3}
+.hero__p1 .photo{aspect-ratio:4 / 5}
+.hero__p2 .photo,.hero__p3 .photo{aspect-ratio:1}
+.sticker{position:absolute;z-index:4;display:grid;place-items:center;text-align:center;width:150px;height:150px;border-radius:50%;background:var(--yellow);border:2.5px solid var(--ink);box-shadow:5px 5px 0 var(--ink);transform:rotate(-12deg);padding:14px}
+.sticker b{display:block;font-family:var(--display);font-weight:400;font-size:21px;line-height:1.05}
+.sticker span{display:block;margin-top:6px;font-size:12.5px;font-weight:600;line-height:1.25}
+.hero__sticker{right:2%;bottom:6%}
+@media (max-width:960px){
+  .hero__grid{grid-template-columns:1fr}
+  .hero__media{min-height:0;height:clamp(420px, 92vw, 560px);max-width:600px;width:100%;margin:0 auto}
+}
+@media (max-width:640px){
+  .hero__facts{grid-template-columns:1fr;gap:12px}
+  .fact{display:flex;align-items:baseline;gap:14px}
+  .fact b{min-width:108px;font-size:20px}
+  .fact span{margin:0}
+  .hero__actions .btn{width:100%}
+  .sticker{width:118px;height:118px;padding:10px}
+  .sticker b{font-size:17px}
+  .sticker span{font-size:11px}
+  .hero__p1{width:66%}
+  .hero__p2{width:52%}
+  .hero__p3{width:56%;left:6%}
+}
+
+/* ═════════════ 2. О мастерской ═════════════ */
+.about{display:grid;grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);gap:clamp(40px, 6vw, 96px);align-items:center}
+.about__lead{font-size:clamp(22px, 2.4vw, 28px);line-height:1.35;font-weight:600}
+.about__list{margin-top:28px;display:grid;gap:10px}
+.about__list li{display:flex;gap:14px;align-items:flex-start;padding:14px 18px;border:2px solid var(--ink);border-radius:16px;background:var(--card);font-weight:500}
+.about__list li::before{content:"";flex:none;width:12px;height:12px;margin-top:8px;border-radius:50%;background:var(--yellow);border:2px solid var(--ink)}
+.about__sum{margin-top:26px;font-size:18px}
+.about__sum b{background:var(--yellow);padding:0 .25em;border-radius:6px}
+.stories{display:grid;gap:18px}
+.story{position:relative;padding:22px 24px 22px 60px;background:var(--card);border:2px solid var(--ink);border-radius:var(--radius);box-shadow:5px 5px 0 var(--ink)}
+.story:nth-child(2){margin-left:clamp(0px, 4vw, 48px);background:var(--yellow-soft)}
+.story:nth-child(3){margin-left:clamp(0px, 1.5vw, 18px)}
+.story::before{content:"“";position:absolute;left:18px;top:6px;font-family:var(--display);font-size:52px;line-height:1;color:var(--red)}
+.story p{font-size:17px;line-height:1.5}
+.about__note{margin-top:22px;color:var(--muted);font-size:15px}
+@media (max-width:900px){ .about{grid-template-columns:1fr} }
+
+/* ═════════════ 3. Форматы и цены ═════════════ */
+.formats{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:20px}
+.fcard{position:relative;display:flex;flex-direction:column;padding:26px;background:var(--card);border:2px solid var(--ink);border-radius:var(--radius);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+@media (hover:hover){ .fcard:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--ink)} }
+.fcard--main{grid-column:span 2;background:var(--yellow)}
+.fcard__top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.fcard__ico{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--paper);border:2px solid var(--ink)}
+.fcard__ico svg{width:24px;height:24px}
+.fcard__badge{padding:5px 12px;border-radius:999px;background:var(--ink);color:var(--paper);font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.fcard__title{font-size:22px;font-weight:700;line-height:1.2}
+.fcard--main .fcard__title{font-family:var(--display);font-weight:400;font-size:clamp(26px, 2.8vw, 34px);text-transform:uppercase}
+.fcard__text{margin-top:10px;color:var(--ink-2);font-size:16px;line-height:1.5}
+.fcard__foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 16px;margin-top:auto;padding-top:22px}
+.fcard__body{margin-bottom:22px}
+.price{font-family:var(--display);font-weight:400;font-size:26px;line-height:1.1;white-space:nowrap}
+.price small{font-family:var(--sans);font-weight:600;font-size:14px;color:var(--muted);margin-left:4px}
+.fcard--main .price small{color:var(--ink-2)}
+.fcard--gift{background:var(--ink);color:var(--paper)}
+.fcard--gift .fcard__ico{background:var(--yellow);color:var(--ink)}
+.fcard--gift .fcard__text{color:#D9CFBF}
+.fcard--gift .btn--primary{border-color:var(--yellow);box-shadow:4px 4px 0 var(--yellow)}
+@media (hover:hover){ .fcard--gift:hover{box-shadow:6px 6px 0 var(--yellow)} }
+.formats__note{margin-top:22px;display:flex;gap:14px;align-items:flex-start;padding:18px 22px;border:2px dashed var(--ink);border-radius:var(--radius);font-size:16px;color:var(--ink-2)}
+.formats__note svg{width:22px;height:22px;flex:none;margin-top:2px}
+@media (max-width:980px){
+  .formats{grid-template-columns:repeat(2, minmax(0, 1fr))}
+  .fcard--main,.fcard--gift{grid-column:span 2}
+}
+@media (max-width:640px){
+  .formats{grid-template-columns:1fr}
+  .fcard--main,.fcard--gift{grid-column:span 1}
+  .fcard{padding:22px}
+  .fcard__foot .btn{width:100%}
+}
+
+/* ═════════════ 4. Свидание ═════════════ */
+.date{display:grid;grid-template-columns:minmax(0, 1fr) minmax(0, 1.05fr);gap:clamp(40px, 6vw, 88px);align-items:center}
+.date__media{position:relative;padding:20px 30px 30px 10px}
+.date__media .polaroid{--r:-3deg;max-width:460px}
+.date__media .photo{aspect-ratio:4 / 5}
+.date__sticker{right:0;top:0}
+.date__lead{margin-top:6px;font-size:clamp(19px, 2vw, 23px);line-height:1.45;color:var(--paper)}
+.date__facts{display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:12px;margin-top:28px}
+.dfact{padding:16px 18px;border:2px solid rgba(255,247,230,.35);border-radius:16px}
+.dfact b{display:block;font-family:var(--display);font-weight:400;font-size:24px;color:var(--yellow)}
+.dfact span{display:block;margin-top:2px;font-size:14.5px;color:#D9CFBF}
+.date__inc{margin-top:22px}
+.date__inc h3{font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--yellow);font-weight:700}
+.date__inc ul{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+.date__inc li{padding:7px 14px;border-radius:999px;background:rgba(255,247,230,.1);font-size:15px}
+.date__quote{margin-top:26px;padding-left:18px;border-left:4px solid var(--red);font-size:17px;color:#E9E0D2}
+.date__quote b{color:var(--paper)}
+.date__actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+@media (max-width:900px){
+  .date{grid-template-columns:1fr}
+  .date__media{max-width:520px}
+}
+@media (max-width:520px){
+  .date__facts{grid-template-columns:1fr}
+  .date__actions .btn{width:100%}
+}
+
+/* ═════════════ 5. Сертификат ═════════════ */
+.gift{display:grid;grid-template-columns:minmax(0, 1.1fr) minmax(0, .9fr);gap:clamp(36px, 5vw, 72px);align-items:center}
+.gcard{position:relative;aspect-ratio:1.6;max-width:520px;width:100%;margin:0 auto;padding:clamp(22px, 3vw, 34px);border:2.5px solid var(--ink);border-radius:24px;background:var(--yellow);box-shadow:8px 8px 0 var(--ink);transform:rotate(-3deg);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.gcard::after{content:"";position:absolute;right:-60px;bottom:-60px;width:220px;height:220px;border-radius:50%;border:2.5px dashed rgba(27,25,22,.35)}
+.gcard__top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.gcard__brand{font-family:var(--display);font-size:clamp(20px, 2.4vw, 26px);text-transform:uppercase;line-height:1}
+.gcard__label{font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.gcard__sum{font-family:var(--display);font-size:clamp(34px, 4.6vw, 52px);line-height:1}
+.gcard__sum small{display:block;font-family:var(--sans);font-size:14px;font-weight:600;margin-bottom:6px}
+.gift__rows{display:grid;gap:0;border-top:2px solid var(--ink);margin-top:26px}
+.gift__row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:14px 0;border-bottom:2px solid var(--ink)}
+.gift__row span{color:var(--ink-2)}
+.gift__row b{text-align:right}
+.gift__for{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px}
+.gift__actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+@media (max-width:900px){ .gift{grid-template-columns:1fr} .gift__visual{order:-1} }
+@media (max-width:520px){ .gift__actions .btn{width:100%} }
+
+/* ═════════════ 6. Как это проходит ═════════════ */
+.steps{display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:18px;counter-reset:step}
+.step{position:relative;padding:26px 22px 24px;background:var(--card);border:2px solid var(--ink);border-radius:var(--radius)}
+.step::before{counter-increment:step;content:counter(step);display:grid;place-items:center;width:46px;height:46px;margin-bottom:18px;border-radius:50%;background:var(--yellow);border:2px solid var(--ink);font-family:var(--display);font-size:20px}
+.step h3{font-size:19px;font-weight:700;line-height:1.25}
+.step p{margin-top:8px;color:var(--muted);font-size:15.5px;line-height:1.5}
+.steps__note{margin-top:22px;font-size:15.5px;color:var(--ink-2)}
+.steps__note a{font-weight:600;text-underline-offset:4px}
+@media (max-width:980px){ .steps{grid-template-columns:repeat(2, minmax(0, 1fr))} }
+@media (max-width:560px){ .steps{grid-template-columns:1fr} }
+
+/* ═════════════ 7. Отзывы ═════════════ */
+.reviews{display:grid;grid-template-columns:minmax(0, .8fr) minmax(0, 1.2fr);gap:clamp(28px, 4vw, 56px);align-items:start}
+.rating{padding:28px;border:2px solid var(--ink);border-radius:var(--radius-lg);background:var(--yellow);box-shadow:6px 6px 0 var(--ink)}
+.rating b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(64px, 8vw, 92px);line-height:.95}
+.stars{display:flex;gap:4px;margin-top:10px;color:var(--ink)}
+.stars svg{width:24px;height:24px;fill:currentColor}
+.rating p{margin-top:12px;font-weight:600}
+.rating a{display:inline-block;margin-top:16px;font-weight:600;text-underline-offset:4px}
+.rlist{display:grid;gap:16px}
+.rcard{padding:22px 24px;background:var(--card);border:2px dashed var(--line-2);border-radius:var(--radius)}
+.rcard p{color:var(--muted);font-size:16px}
+.rcard b{display:block;margin-top:10px;font-size:14.5px}
+@media (max-width:860px){ .reviews{grid-template-columns:1fr} }
+
+/* ═════════════ 8. Заявка ═════════════ */
+.request{display:grid;grid-template-columns:minmax(0, .9fr) minmax(0, 1.1fr);gap:clamp(36px, 5vw, 72px);align-items:start}
+.request__lead{font-size:clamp(19px, 2vw, 22px);line-height:1.45;font-weight:500}
+.request__alt{display:flex;flex-direction:column;gap:10px;margin-top:26px}
+.request__alt span{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.request__alt a{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;font-weight:600;font-size:18px;text-decoration:none;border-bottom:2px solid var(--yellow)}
+.request__alt a:hover{border-bottom-color:var(--ink)}
+.request__alt svg{width:20px;height:20px}
+.request__words{margin-top:28px;padding:20px 22px;border:2px solid var(--ink);border-radius:var(--radius);background:var(--yellow-soft)}
+.request__words b{display:block;font-size:15px;letter-spacing:.06em;text-transform:uppercase}
+.request__words ul{margin-top:10px;display:grid;gap:6px;font-size:16px}
+.rform-card{padding:clamp(22px, 3vw, 36px);background:var(--card);border:2px solid var(--ink);border-radius:var(--radius-lg);box-shadow:8px 8px 0 var(--ink)}
+.rform{display:grid;gap:18px}
+.rform__row{display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:18px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field label{font-weight:600;font-size:15px}
+.field label i{color:var(--red-ink);font-style:normal}
+.input{width:100%;min-height:52px;padding:12px 16px;border:2px solid var(--ink);border-radius:14px;background:#fff;font-size:16px;transition:box-shadow .2s}
+.input:focus{outline:none;box-shadow:0 0 0 4px var(--yellow)}
+textarea.input{resize:vertical;min-height:104px}
+select.input{appearance:none;-webkit-appearance:none;padding-right:44px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231B1916' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-size:20px}
+.field.is-invalid .input{border-color:var(--red-ink);box-shadow:0 0 0 3px rgba(216,69,43,.18)}
+.field__err{font-size:14px;color:var(--red-ink);font-weight:500}
+.check{display:flex;gap:12px;align-items:flex-start;font-weight:400!important;font-size:14.5px!important;line-height:1.45;color:var(--ink-2)}
+.check input{flex:none;width:22px;height:22px;margin:0;accent-color:var(--ink)}
+.check a{text-underline-offset:3px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.rform__error{padding:14px 16px;border-radius:14px;background:#FCE3DD;border:2px solid var(--red-ink);display:grid;gap:10px;font-size:15px}
+.rform__foot{display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px}
+.rform__mode{font-size:14px;color:var(--muted)}
+.rsuccess{text-align:center;display:grid;justify-items:center;gap:12px;padding:12px 0}
+.rsuccess__seal{display:grid;place-items:center;width:72px;height:72px;border-radius:50%;background:var(--yellow);border:2px solid var(--ink)}
+.rsuccess__seal svg{width:34px;height:34px}
+.rsuccess h3{font-family:var(--display);font-weight:400;font-size:28px;text-transform:uppercase}
+.rsuccess__text{color:var(--ink-2)}
+.rsuccess__recap{max-width:100%;margin:6px 0;padding:14px 16px;border-radius:12px;background:var(--paper);border:1.5px dashed var(--line-2);font:14px/1.5 var(--sans);text-align:left;white-space:pre-wrap;word-break:break-word}
+.rsuccess__demo{font-size:14px;color:var(--red-ink);font-weight:600}
+@media (max-width:900px){ .request{grid-template-columns:1fr} }
+@media (max-width:560px){ .rform__row{grid-template-columns:1fr} .rform__foot .btn{width:100%} }
+
+/* ═════════════ Футер ═════════════ */
+.footer{background:var(--ink);color:var(--paper);padding:clamp(56px, 8vw, 88px) 0 28px}
+.footer__grid{display:grid;grid-template-columns:minmax(0, 1.3fr) repeat(3, minmax(0, 1fr));gap:36px}
+.footer .logo__sub{color:#BFB4A3}
+.footer__slogan{margin-top:18px;max-width:280px;color:#D9CFBF}
+.footer h3{font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--yellow)}
+.footer__list{margin-top:16px;display:grid;gap:10px}
+.footer__list a{text-decoration:none;border-bottom:1px solid rgba(255,247,230,.3)}
+.footer__list a:hover{border-bottom-color:var(--yellow)}
+.footer__list small{display:block;color:#BFB4A3;font-size:14px}
+.footer .todo{outline-color:rgba(255,225,90,.6)}
+.footer__bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:48px;padding-top:22px;border-top:1px solid rgba(255,247,230,.18);font-size:14px;color:#BFB4A3}
+.footer__bottom a{color:inherit}
+@media (max-width:900px){ .footer__grid{grid-template-columns:repeat(2, minmax(0, 1fr))} }
+@media (max-width:520px){ .footer__grid{grid-template-columns:1fr} }
+
+/* ═════════════ Уведомление ═════════════ */
+.toast{position:fixed;left:50%;bottom:24px;z-index:80;max-width:min(520px, calc(100% - 32px));padding:14px 20px;border-radius:16px;background:var(--ink);color:var(--paper);border:2px solid var(--yellow);font-size:15px;line-height:1.45;transform:translate(-50%, calc(100% + 48px));visibility:hidden;transition:transform .35s var(--ease),visibility 0s .35s}
+.toast.is-shown{transform:translate(-50%, 0);visibility:visible;transition:transform .35s var(--ease)}
+.toast b{color:var(--yellow)}
+</style>
+</head>
+<body id="top">
+<a class="skip" href="#main">К содержимому</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="logo" href="#top" aria-label="Две Козы, в начало страницы">
+      <!-- ЛОГОТИП: временный знак - жёлтый круг. Заменить на логотип мастерской (SVG или PNG) -->
+      <span class="logo__mark" aria-hidden="true">2К</span>
+      <span class="logo__text">
+        <span class="logo__name">Две Козы</span>
+        <span class="logo__sub">творческая мастерская</span>
+      </span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Разделы">
+      <a href="#about">О нас</a>
+      <a href="#formats">Форматы и цены</a>
+      <a href="#date">Свидание</a>
+      <a href="#gift">Сертификат</a>
+      <a href="#how">Как проходит</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#request">Контакты</a>
+      <a class="btn btn--primary nav__cta" href="#request" data-interest="Гончарный мастер-класс">Записаться</a>
+    </nav>
+    <a class="btn btn--primary btn--sm header__cta" href="#request" data-interest="Гончарный мастер-класс">Записаться</a>
+    <button class="burger" type="button" aria-controls="nav" aria-expanded="false" aria-label="Открыть меню"><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ═══════════════════════════ 1. ПЕРВЫЙ ЭКРАН ═══════════════════════════ -->
+<section class="section hero" aria-labelledby="hero-title">
+  <div class="container hero__grid">
+    <div>
+      <div class="hero__eyebrow reveal">
+        <span class="tag tag--yellow">Гончарная мастерская</span>
+        <span class="tag">Екатеринбург</span>
+      </div>
+      <h1 class="hero__title reveal" id="hero-title" style="--d:1">Две <span>Козы</span></h1>
+      <p class="hero__slogan reveal" style="--d:2">Просто приходишь, берёшь глину… и&nbsp;дальше как пойдёт</p>
+      <p class="hero__text reveal" style="--d:3">Гончарные мастер-классы, свидания в&nbsp;мастерской и&nbsp;творческие вечера. Можно прийти вообще без опыта: никто не&nbsp;оценивает, и&nbsp;не&nbsp;нужно «уметь».</p>
+      <div class="hero__actions reveal" style="--d:4">
+        <a class="btn btn--primary btn--lg" href="#request" data-interest="Гончарный мастер-класс">Записаться на мастер-класс
+          <svg class="ico btn__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn--ghost btn--lg" href="#gift">Подарить сертификат</a>
+      </div>
+      <div class="hero__facts reveal" style="--d:5">
+        <div class="fact"><b>5,0</b><span>рейтинг сообщества ВКонтакте</span></div>
+        <div class="fact"><b>от 1&nbsp;500&nbsp;₽</b><span>мастер-класс</span></div>
+        <div class="fact"><b>2,5 часа</b><span>свидание в&nbsp;мастерской</span></div>
+      </div>
+    </div>
+
+    <div class="hero__media" aria-hidden="true">
+      <!-- ФОТО: 3 снимка в стиле обложки сообщества - руки за кругом, изделия, атмосфера -->
+      <figure class="polaroid hero__p1 reveal" style="--d:2">
+        <div class="photo"><div class="ph"><svg class="ico ph__icon" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg><span class="ph__label">ФОТО: руки за&nbsp;гончарным кругом</span></div></div>
+        <figcaption class="polaroid__cap">за кругом</figcaption>
+      </figure>
+      <figure class="polaroid hero__p2 reveal" style="--d:3">
+        <div class="photo"><div class="ph"><svg class="ico ph__icon" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg><span class="ph__label">ФОТО: готовые изделия гостей</span></div></div>
+        <figcaption class="polaroid__cap">сделано своими руками</figcaption>
+      </figure>
+      <figure class="polaroid hero__p3 reveal" style="--d:4">
+        <div class="photo"><div class="ph"><svg class="ico ph__icon" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg><span class="ph__label">ФОТО: вечер в&nbsp;мастерской, свечи и&nbsp;чай</span></div></div>
+        <figcaption class="polaroid__cap">уют, люди, эмоции</figcaption>
+      </figure>
+      <div class="sticker hero__sticker reveal" style="--d:5"><div><b>без опыта</b><span>можно, нужно, приходите</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 2. О МАСТЕРСКОЙ ═══════════════════════════ -->
+<section class="section section--band" id="about" aria-labelledby="about-title">
+  <div class="container about">
+    <div>
+      <div class="sec-head">
+        <span class="sec-kicker">О нас</span>
+        <h2 class="sec-title" id="about-title">Это не просто <mark>гончарная</mark> мастерская</h2>
+      </div>
+      <p class="about__lead reveal">Это место, куда приходят:</p>
+      <ul class="about__list">
+        <li class="reveal" style="--d:1">отдохнуть от&nbsp;всего</li>
+        <li class="reveal" style="--d:2">попробовать что-то новое</li>
+        <li class="reveal" style="--d:3">провести вечер с&nbsp;подругой или на&nbsp;свидании</li>
+        <li class="reveal" style="--d:4">и&nbsp;просто побыть в&nbsp;классной атмосфере</li>
+      </ul>
+      <p class="about__sum reveal">Если коротко - здесь про <b>уют, людей и&nbsp;эмоции</b>.</p>
+    </div>
+    <div>
+      <div class="stories">
+        <div class="story reveal" style="--d:1"><p>Кто-то лепит кружку и&nbsp;смеётся, что она «немного кривая».</p></div>
+        <div class="story reveal" style="--d:2"><p>Кто-то впервые садится за&nbsp;круг и&nbsp;залипает в&nbsp;процесс.</p></div>
+        <div class="story reveal" style="--d:3"><p>Кто-то приходит на&nbsp;свидание и&nbsp;потом не&nbsp;хочет уходить.</p></div>
+      </div>
+      <p class="about__note reveal">И&nbsp;как-то незаметно проходит вечер.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 3. ФОРМАТЫ И ЦЕНЫ ═══════════════════════════
+     Цены - из раздела «Услуги» сообщества. Кнопки открывают форму с выбранным форматом.
+     ЗАПИСЬ: если мастерская подключит онлайн-запись (YCLIENTS, DIKIDI), ссылки вписываются
+     в BOOKING_LINKS внизу страницы, и кнопки начнут открывать запись. -->
+<section class="section" id="formats" aria-labelledby="formats-title">
+  <div class="container">
+    <div class="sec-head sec-head--split">
+      <div>
+        <span class="sec-kicker">Форматы и цены</span>
+        <h2 class="sec-title" id="formats-title">Выбирайте, <mark>как провести</mark> вечер</h2>
+      </div>
+      <p class="sec-aside">Ближайшие даты подскажем в&nbsp;сообщениях. Цена мастер-класса зависит от&nbsp;формата и&nbsp;количества изделий.</p>
+    </div>
+
+    <div class="formats">
+      <article class="fcard fcard--main reveal">
+        <div class="fcard__body">
+          <div class="fcard__top">
+            <span class="fcard__ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h10l-1.5 13.5a2 2 0 0 1-2 1.5h-3a2 2 0 0 1-2-1.5z"/><path d="M5 5h14"/><path d="M8.5 10h7"/></svg></span>
+            <span class="fcard__badge">Можно без опыта</span>
+          </div>
+          <h3 class="fcard__title">Гончарный мастер-класс</h3>
+          <!-- ЧЕРНОВИК: описание формата - согласовать с мастерской -->
+          <p class="fcard__text">Классический формат: садитесь за&nbsp;гончарный круг или лепите руками, а&nbsp;мастер подскажет каждый шаг. Подходит для первого раза.</p>
+        </div>
+        <div class="fcard__foot">
+          <span class="price">1&nbsp;500-3&nbsp;500&nbsp;₽</span>
+          <button class="btn btn--ink js-book" type="button" data-booking="classic" data-interest="Гончарный мастер-класс">Записаться</button>
+        </div>
+      </article>
+
+      <article class="fcard reveal" style="--d:1">
+        <div class="fcard__body">
+          <div class="fcard__top"><span class="fcard__ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.6 3.6-6 7-6s6.2 2.4 7 6"/></svg></span></div>
+          <h3 class="fcard__title">Индивидуальный мастер-класс</h3>
+          <!-- ЧЕРНОВИК: описание -->
+          <p class="fcard__text">Занятие один на&nbsp;один с&nbsp;мастером в&nbsp;удобное время.</p>
+        </div>
+        <div class="fcard__foot">
+          <span class="price">3&nbsp;500&nbsp;₽</span>
+          <button class="btn btn--primary btn--sm js-book" type="button" data-booking="individual" data-interest="Индивидуальный мастер-класс">Записаться</button>
+        </div>
+      </article>
+
+      <article class="fcard reveal" style="--d:1">
+        <div class="fcard__body">
+          <div class="fcard__top">
+            <span class="fcard__ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span>
+            <span class="fcard__badge">На двоих</span>
+          </div>
+          <h3 class="fcard__title">Романтическое свидание</h3>
+          <p class="fcard__text">2,5 часа за&nbsp;кругом или лепкой, свечи и&nbsp;чай в&nbsp;чайничке. Изделия - после двух обжигов с&nbsp;глазурью.</p>
+        </div>
+        <div class="fcard__foot">
+          <span class="price">5&nbsp;000&nbsp;₽<small>на двоих</small></span>
+          <a class="btn btn--primary btn--sm" href="#date">Подробнее</a>
+        </div>
+      </article>
+
+      <article class="fcard reveal" style="--d:2">
+        <div class="fcard__body">
+          <div class="fcard__top"><span class="fcard__ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11h13v3a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 12h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 4c0 1.5 1 1.5 1 3M12 4c0 1.5 1 1.5 1 3"/></svg></span></div>
+          <h3 class="fcard__title">Романтический завтрак</h3>
+          <!-- ЧЕРНОВИК: описания формата нет в сообществе - уточнить у мастерской -->
+          <p class="fcard__text">Утро вдвоём в&nbsp;мастерской. Подробности формата расскажем в&nbsp;сообщениях.</p>
+        </div>
+        <div class="fcard__foot">
+          <span class="price">7&nbsp;000&nbsp;₽</span>
+          <button class="btn btn--primary btn--sm js-book" type="button" data-booking="breakfast" data-interest="Романтический завтрак">Записаться</button>
+        </div>
+      </article>
+
+      <article class="fcard reveal" style="--d:2">
+        <div class="fcard__body">
+          <div class="fcard__top"><span class="fcard__ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 4.5 19.5 9.5 10 19H5v-5z"/><path d="M12.5 6.5l5 5"/></svg></span></div>
+          <h3 class="fcard__title">Рисование акрилом</h3>
+          <!-- ЧЕРНОВИК: описание -->
+          <p class="fcard__text">Творческий вечер с&nbsp;красками, когда хочется не&nbsp;лепить, а&nbsp;рисовать.</p>
+        </div>
+        <div class="fcard__foot">
+          <span class="price">1&nbsp;500-3&nbsp;500&nbsp;₽</span>
+          <button class="btn btn--primary btn--sm js-book" type="button" data-booking="acrylic" data-interest="Рисование акрилом">Записаться</button>
+        </div>
+      </article>
+
+      <article class="fcard reveal" style="--d:3">
+        <div class="fcard__body">
+          <div class="fcard__top"><span class="fcard__ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/><path d="m10.5 9 4 2-4 2z"/></svg></span></div>
+          <h3 class="fcard__title">Глина, кино, вино</h3>
+          <!-- ЧЕРНОВИК: описание -->
+          <p class="fcard__text">Лепим под фильм - вечерний формат для компании.</p>
+        </div>
+        <div class="fcard__foot">
+          <span class="price">1&nbsp;500&nbsp;₽</span>
+          <button class="btn btn--primary btn--sm js-book" type="button" data-booking="cinema" data-interest="Глина, кино, вино">Записаться</button>
+        </div>
+      </article>
+
+      <article class="fcard reveal" style="--d:3">
+        <div class="fcard__body">
+          <div class="fcard__top"><span class="fcard__ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h11v8H9l-4 3.5V13H4z"/><path d="M15 9h5v7h-1v3l-3.5-3H11v-3"/></svg></span></div>
+          <h3 class="fcard__title">Английский клуб под&nbsp;лепку</h3>
+          <!-- ЧЕРНОВИК: описание -->
+          <p class="fcard__text">Разговорный английский, пока руки заняты глиной.</p>
+        </div>
+        <div class="fcard__foot">
+          <span class="price">1&nbsp;500&nbsp;₽</span>
+          <button class="btn btn--primary btn--sm js-book" type="button" data-booking="english" data-interest="Английский разговорный клуб">Записаться</button>
+        </div>
+      </article>
+
+      <article class="fcard fcard--gift reveal" style="--d:4">
+        <div class="fcard__body">
+          <div class="fcard__top"><span class="fcard__ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="8" width="17" height="4" rx="1"/><path d="M5 12v8h14v-8M12 8v12"/><path d="M12 8C10.5 5 7 4.5 7 6.8 7 8 9 8 12 8zM12 8c1.5-3 5-3.5 5-1.2C17 8 15 8 12 8z"/></svg></span></div>
+          <h3 class="fcard__title">Подарочный сертификат</h3>
+          <p class="fcard__text">Любой формат в подарок: на одного, на двоих или на компанию. Действует 6 месяцев.</p>
+        </div>
+        <div class="fcard__foot">
+          <span class="price">от 3&nbsp;500&nbsp;₽</span>
+          <a class="btn btn--primary btn--sm" href="#gift">Выбрать</a>
+        </div>
+      </article>
+    </div>
+
+    <p class="formats__note reveal">
+      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg>
+      <span>Все материалы дадим на&nbsp;месте. Для свидания уже входят глина, окрашивание глиняными красками и&nbsp;два обжига с&nbsp;глазуровкой.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 4. СВИДАНИЕ ═══════════════════════════
+     Факты - из статьи сообщества «Романтическое свидание в гончарной мастерской». -->
+<section class="section section--ink" id="date" aria-labelledby="date-title">
+  <div class="container date">
+    <div class="date__media" aria-hidden="true">
+      <!-- ФОТО: пара за гончарным кругом, свечи -->
+      <figure class="polaroid reveal">
+        <div class="photo"><div class="ph"><svg class="ico ph__icon" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg><span class="ph__label">ФОТО: пара за&nbsp;гончарным кругом, свечи</span></div></div>
+        <figcaption class="polaroid__cap">«смотри, это я сделал(а)?!»</figcaption>
+      </figure>
+      <div class="sticker date__sticker reveal" style="--d:2"><div><b>5&nbsp;000&nbsp;₽</b><span>на двоих</span></div></div>
+    </div>
+    <div>
+      <div class="sec-head">
+        <span class="sec-kicker">Свидание в мастерской</span>
+        <h2 class="sec-title" id="date-title">Не банальное <mark>свидание</mark></h2>
+      </div>
+      <p class="date__lead reveal">Приходите вдвоём, садитесь за&nbsp;гончарный круг или за&nbsp;лепку и&nbsp;начинайте творить. Это не&nbsp;про «сделать идеально», а&nbsp;про то, чтобы поболтать, побыть рядом и&nbsp;попробовать новое вместе.</p>
+      <div class="date__facts reveal" style="--d:1">
+        <div class="dfact"><b>2,5 часа</b><span>длительность</span></div>
+        <div class="dfact"><b>6 недель</b><span>и&nbsp;изделия готовы</span></div>
+      </div>
+      <div class="date__inc reveal" style="--d:2">
+        <h3>Что входит</h3>
+        <ul>
+          <li>глина</li>
+          <li>окрашивание глиняными красками</li>
+          <li>два обжига с&nbsp;глазуровкой</li>
+          <li>чай в&nbsp;чайничке</li>
+          <li>живой свет и&nbsp;свечи</li>
+        </ul>
+      </div>
+      <p class="date__quote reveal" style="--d:3">Сначала: <b>«я не&nbsp;умею»</b>. А&nbsp;потом: <b>«смотри, это я&nbsp;сделал(а)?!»</b> Подходит и&nbsp;для первого свидания, и&nbsp;если вы вместе сто лет.</p>
+      <div class="date__actions reveal" style="--d:4">
+        <button class="btn btn--primary btn--lg js-book" type="button" data-booking="date" data-interest="Романтическое свидание">Выбрать дату</button>
+        <a class="btn btn--light btn--lg" href="#gift">Подарить свидание</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 5. СЕРТИФИКАТ ═══════════════════════════
+     Условия - из статьи сообщества «Подарочный сертификат на мастер-класс». -->
+<section class="section section--band" id="gift" aria-labelledby="gift-title">
+  <div class="container gift">
+    <div>
+      <div class="sec-head">
+        <span class="sec-kicker">Подарок</span>
+        <h2 class="sec-title" id="gift-title">Сертификат, <mark>который помнят</mark></h2>
+      </div>
+      <p class="about__lead reveal">Вечер с&nbsp;эмоциями, новое впечатление и&nbsp;что-то, сделанное своими руками.</p>
+      <div class="gift__rows reveal" style="--d:1">
+        <div class="gift__row"><span>Номинал</span><b>от&nbsp;3&nbsp;500&nbsp;₽, максимум - любой</b></div>
+        <div class="gift__row"><span>Срок действия</span><b>6 месяцев</b></div>
+        <div class="gift__row"><span>На&nbsp;что обменять</span><b>любой мастер-класс, кроме бесплатных</b></div>
+        <div class="gift__row"><span>Формат</span><b>красиво оформленный или электронный</b></div>
+      </div>
+      <div class="gift__for reveal" style="--d:2">
+        <span class="tag">на одного</span><span class="tag">на двоих</span><span class="tag">на компанию</span>
+        <span class="tag tag--yellow">свидание</span><span class="tag tag--yellow">мастер-класс</span><span class="tag tag--yellow">творческий вечер</span>
+      </div>
+      <div class="gift__actions reveal" style="--d:3">
+        <a class="btn btn--primary btn--lg" href="#request" data-interest="Подарочный сертификат">Оформить сертификат</a>
+      </div>
+    </div>
+    <div class="gift__visual reveal" style="--d:1" aria-hidden="true">
+      <div class="gcard">
+        <div class="gcard__top">
+          <span class="gcard__brand">Две<br>Козы</span>
+          <span class="gcard__label">Подарочный<br>сертификат</span>
+        </div>
+        <div class="gcard__sum"><small>номинал</small>3&nbsp;500&nbsp;₽</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 6. КАК ПРОХОДИТ ═══════════════════════════ -->
+<section class="section" id="how" aria-labelledby="how-title">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-kicker">Как это проходит</span>
+      <h2 class="sec-title" id="how-title">Четыре <mark>простых шага</mark></h2>
+    </div>
+    <ol class="steps">
+      <li class="step reveal"><h3>Выбираете формат</h3><p>Оставьте заявку или напишите нам «Мастер-класс», «Свидание» или «Сертификат» - пришлём ближайшие даты.</p></li>
+      <li class="step reveal" style="--d:1"><h3>Приходите без опыта</h3><p>Никто не&nbsp;оценивает, и&nbsp;не&nbsp;нужно «уметь». Материалы и&nbsp;фартуки ждут на&nbsp;месте.</p></li>
+      <li class="step reveal" style="--d:2"><h3>Творите</h3><p>Круг или лепка, потом роспись. Мастер рядом и&nbsp;подскажет.</p></li>
+      <li class="step reveal" style="--d:3"><h3>Забираете изделия</h3><p>После обжига с&nbsp;глазурью. На&nbsp;свидании это около 6&nbsp;недель.</p></li>
+    </ol>
+    <!-- ЧЕРНОВИК: про фартуки и сроки для других форматов - уточнить -->
+    <p class="steps__note reveal">Про готовность изделий пишите администратору в&nbsp;Telegram: <a href="https://t.me/adm_dvekozy" target="_blank" rel="noopener">@adm_dvekozy</a></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 7. ОТЗЫВЫ ═══════════════════════════ -->
+<section class="section section--band" id="reviews" aria-labelledby="reviews-title">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-kicker">Отзывы</span>
+      <h2 class="sec-title" id="reviews-title">Хочется <mark>вернуться</mark></h2>
+    </div>
+    <div class="reviews">
+      <div class="rating reveal">
+        <b>5,0</b>
+        <div class="stars" aria-label="Оценка 5 из 5">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.8 2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.8 2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.8 2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.8 2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.8 2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg>
+        </div>
+        <p>рейтинг сообщества ВКонтакте</p>
+        <!-- TODO: ссылка на отзывы в Яндекс Картах (в закреплённом посте сообщества) -->
+        <a class="todo" href="https://vk.com/dvekozygoncharka" target="_blank" rel="noopener">Все отзывы →</a>
+      </div>
+      <div class="rlist">
+        <!-- ОТЗЫВЫ: вставить 2-3 настоящих отзыва с Яндекс Карт или ВКонтакте (с согласия авторов) -->
+        <div class="rcard reveal" style="--d:1"><p>Здесь будет настоящий отзыв гостя мастерской - с&nbsp;Яндекс Карт или ВКонтакте.</p><b>Имя гостя · формат</b></div>
+        <div class="rcard reveal" style="--d:2"><p>Здесь будет второй отзыв - например, про свидание или подарочный сертификат.</p><b>Имя гостя · формат</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 8. ЗАЯВКА ═══════════════════════════ -->
+<section class="section" id="request" aria-labelledby="request-title">
+  <div class="container request">
+    <div>
+      <div class="sec-head">
+        <span class="sec-kicker">Запись</span>
+        <h2 class="sec-title" id="request-title">Оставить <mark>заявку</mark></h2>
+      </div>
+      <p class="request__lead reveal">Выберите формат, оставьте контакты - и&nbsp;мы пришлём ближайшие даты. Будьте готовы, что вам понравится и&nbsp;захочется вернуться.</p>
+      <div class="request__alt reveal" style="--d:1">
+        <span>Или напрямую</span>
+        <a href="tel:+79505612321"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1"/></svg>+7 (950) 561-23-21</a>
+        <a href="https://t.me/dvekozyy" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m21 4-18 7 6 2 2 6 3-4 5 4z"/><path d="m9 13 8-6"/></svg>Telegram: dvekozyy</a>
+      </div>
+      <div class="request__words reveal" style="--d:2">
+        <b>Кодовые слова в сообщениях</b>
+        <ul>
+          <li>«Мастер-класс» - пришлём ближайшие даты</li>
+          <li>«Свидание» - подберём формат</li>
+          <li>«Сертификат» - оформим подарок</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rform-card reveal" style="--d:1">
+      <!-- Логика отправки - FORM_CONFIG в скрипте внизу страницы -->
+      <form class="rform" id="request-form" novalidate>
+        <div class="rform__row">
+          <div class="field">
+            <label for="f-name">Имя <i aria-hidden="true">*</i></label>
+            <input class="input" id="f-name" name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться" required aria-describedby="f-name-err">
+            <p class="field__err" id="f-name-err" hidden></p>
+          </div>
+          <div class="field">
+            <label for="f-phone">Телефон <i aria-hidden="true">*</i></label>
+            <input class="input" id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required aria-describedby="f-phone-err">
+            <p class="field__err" id="f-phone-err" hidden></p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-interest">Что интересует <i aria-hidden="true">*</i></label>
+          <select class="input" id="f-interest" name="interest" required aria-describedby="f-interest-err">
+            <option value="" disabled selected>Выберите из списка</option>
+            <option>Гончарный мастер-класс</option>
+            <option>Индивидуальный мастер-класс</option>
+            <option>Романтическое свидание</option>
+            <option>Романтический завтрак</option>
+            <option>Рисование акрилом</option>
+            <option>Глина, кино, вино</option>
+            <option>Английский разговорный клуб</option>
+            <option>Подарочный сертификат</option>
+            <option>Другой вопрос</option>
+          </select>
+          <p class="field__err" id="f-interest-err" hidden></p>
+        </div>
+        <div class="field">
+          <label for="f-comment">Комментарий</label>
+          <textarea class="input" id="f-comment" name="comment" rows="4" placeholder="Удобная дата и время или ваш вопрос"></textarea>
+        </div>
+        <!-- защита от спам-ботов: поле скрыто от людей -->
+        <div class="hp" aria-hidden="true"><label>Сайт <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        <div class="field">
+          <label class="check">
+            <input type="checkbox" name="consent" required aria-describedby="f-consent-err">
+            <!-- TODO: ссылка на политику конфиденциальности -->
+            <span>Согласен(на) на&nbsp;обработку персональных данных согласно <a class="todo" href="#">политике конфиденциальности</a></span>
+          </label>
+          <p class="field__err" id="f-consent-err" hidden></p>
+        </div>
+        <div class="rform__error" id="form-error" role="alert" hidden></div>
+        <div class="rform__foot">
+          <button class="btn btn--primary btn--lg" type="submit">Отправить заявку</button>
+          <p class="rform__mode" id="form-mode"></p>
+        </div>
+      </form>
+
+      <div class="rsuccess" id="request-success" hidden tabindex="-1">
+        <div class="rsuccess__seal"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
+        <h3>Заявка отправлена</h3>
+        <p class="rsuccess__text" id="success-text"></p>
+        <pre class="rsuccess__recap" id="success-recap"></pre>
+        <p class="rsuccess__demo" id="success-demo" hidden>Это макет: заявка пока никуда не отправляется.</p>
+        <button class="btn btn--ghost" type="button" id="request-again">Отправить ещё одну</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════════════════════ ФУТЕР ═══════════════════════════ -->
+<footer class="footer" id="contacts" aria-labelledby="contacts-title">
+  <h2 class="visually-hidden" id="contacts-title">Контакты</h2>
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <a class="logo" href="#top" aria-label="Две Козы, в начало страницы">
+          <!-- ЛОГОТИП: версия знака для тёмного фона -->
+          <span class="logo__mark" aria-hidden="true">2К</span>
+          <span class="logo__text">
+            <span class="logo__name">Две Козы</span>
+            <span class="logo__sub">творческая мастерская</span>
+          </span>
+        </a>
+        <p class="footer__slogan">Гончарная мастерская в&nbsp;Екатеринбурге. Здесь про уют, людей и&nbsp;эмоции.</p>
+      </div>
+      <div>
+        <h3>Контакты</h3>
+        <ul class="footer__list">
+          <li><a href="tel:+79505612321">+7 (950) 561-23-21</a></li>
+          <li><a href="https://t.me/dvekozyy" target="_blank" rel="noopener">Telegram</a></li>
+          <li><a href="https://vk.com/dvekozygoncharka" target="_blank" rel="noopener">ВКонтакте</a></li>
+          <li><a href="https://t.me/adm_dvekozy" target="_blank" rel="noopener">@adm_dvekozy</a><small>вопросы о&nbsp;готовых изделиях</small></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Адрес</h3>
+        <ul class="footer__list">
+          <li>пл.&nbsp;Первой Пятилетки,&nbsp;64<small>Екатеринбург</small></li>
+          <!-- TODO: точная ссылка на организацию в Яндекс Картах -->
+          <li><a href="https://yandex.ru/maps/?text=%D0%95%D0%BA%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%BD%D0%B1%D1%83%D1%80%D0%B3%2C%20%D0%BF%D0%BB.%20%D0%9F%D0%B5%D1%80%D0%B2%D0%BE%D0%B9%20%D0%9F%D1%8F%D1%82%D0%B8%D0%BB%D0%B5%D1%82%D0%BA%D0%B8%2C%2064" target="_blank" rel="noopener">Построить маршрут →</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Часы работы</h3>
+        <ul class="footer__list">
+          <!-- TODO: часы работы мастерской -->
+          <li><span class="todo">Пн-Пт: 00:00-00:00</span></li>
+          <li><span class="todo">Сб-Вс: 00:00-00:00</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 Две Козы · творческая мастерская</span>
+      <!-- TODO: страница политики конфиденциальности -->
+      <a class="todo" href="#">Политика конфиденциальности</a>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════
+   ЗАПИСЬ - кнопки «Записаться» у форматов (class="js-book", data-booking="<ключ>").
+   Пока ссылки пустые, кнопка открывает форму заявки с выбранным форматом.
+   Если мастерская подключит онлайн-запись (YCLIENTS, DIKIDI и т.п.) -
+   впишите ссылку на услугу, и кнопка откроет запись в новой вкладке.
+   ════════════════════════════════════════════════════════════════════ */
+const BOOKING_LINKS = {
+  'classic':    '',   // Гончарный мастер-класс
+  'individual': '',   // Индивидуальный мастер-класс
+  'date':       '',   // Романтическое свидание
+  'breakfast':  '',   // Романтический завтрак
+  'acrylic':    '',   // Рисование акрилом
+  'cinema':     '',   // Глина, кино, вино
+  'english':    ''    // Английский разговорный клуб
+};
+
+/* ════════════════════════════════════════════════════════════════════
+   ФОРМА ЗАЯВКИ → Telegram (та же схема, что в прошлых проектах)
+   Заполните ОДИН из блоков transport - форма сама выберет режим:
+     1) webhook - РЕКОМЕНДУЕТСЯ. POST multipart/form-data на ваш адрес
+        (PHP на хостинге, Cloudflare Worker). Токен бота хранится на сервере.
+        Поля: text, orderNo, name, phone, interest, comment, page.
+     2) telegram - заявка уходит боту прямо из браузера.
+        ВАЖНО: токен виден в коде страницы - только для отдельного бота заявок.
+     3) ничего не заполнено - демо-режим: заявка показывается на экране,
+        но никуда не отправляется.
+   ════════════════════════════════════════════════════════════════════ */
+const FORM_CONFIG = {
+  transport: {
+    webhook:  { url: '' },
+    telegram: { token: '', chatId: '' }
+  },
+  /* запасной путь, если отправка не удалась */
+  fallbackTelegram: 'dvekozyy',
+  /* ЧЕРНОВИК: текст после отправки - согласовать */
+  successText: 'Спасибо! Напишем вам с ближайшими датами.',
+  hints: {
+    'Подарочный сертификат': 'Номинал (от 3 500 ₽) или впечатление - например, «Свидание». На одного, двоих или компанию?',
+    'Романтическое свидание': 'Удобные даты и время для вас двоих',
+    'Романтический завтрак': 'Удобная дата',
+    'default': 'Удобная дата и время или ваш вопрос'
+  }
+};
+
+(function () {
+  'use strict';
+  document.documentElement.classList.add('js');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const scrollBehavior = reduceMotion ? 'auto' : 'smooth';
+
+  /* ── шапка: линия при прокрутке ── */
+  const header = document.querySelector('.header');
+  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* ── мобильное меню ── */
+  const nav = document.getElementById('nav');
+  const burger = document.querySelector('.burger');
+  const setMenu = (open) => {
+    nav.classList.toggle('is-open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+  };
+  burger.addEventListener('click', () => setMenu(!nav.classList.contains('is-open')));
+  nav.addEventListener('click', (e) => { if (e.target.closest('a, button')) setMenu(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+  document.addEventListener('click', (e) => {
+    if (nav.classList.contains('is-open') && !e.target.closest('.nav, .burger')) setMenu(false);
+  });
+
+  /* ── подсветка активного раздела в меню ── */
+  const navLinks = Array.from(nav.querySelectorAll('a[href^="#"]:not(.btn)'));
+  if ('IntersectionObserver' in window) {
+    const byId = {};
+    navLinks.forEach((a) => { byId[a.getAttribute('href').slice(1)] = a; });
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        navLinks.forEach((a) => a.classList.toggle('is-active', a === byId[en.target.id]));
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    Object.keys(byId).forEach((id) => { const s = document.getElementById(id); if (s) spy.observe(s); });
+  }
+
+  /* ── появление блоков при прокрутке ── */
+  const revealables = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduceMotion) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    revealables.forEach((el) => io.observe(el));
+  } else {
+    revealables.forEach((el) => el.classList.add('is-visible'));
+  }
+
+  /* ── уведомление ── */
+  const toastEl = document.getElementById('toast');
+  let toastTimer;
+  function toast(html) {
+    toastEl.innerHTML = html;
+    toastEl.classList.add('is-shown');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('is-shown'), 4200);
+  }
+
+  /* ════════════════════ ФОРМА ЗАЯВКИ ════════════════════ */
+  const form = document.getElementById('request-form');
+  const els = {
+    name: form.elements.name,
+    phone: form.elements.phone,
+    interest: form.elements.interest,
+    comment: form.elements.comment,
+    consent: form.elements.consent,
+    website: form.elements.website,
+    submit: form.querySelector('[type="submit"]'),
+    error: document.getElementById('form-error'),
+    mode: document.getElementById('form-mode'),
+    success: document.getElementById('request-success'),
+    successText: document.getElementById('success-text'),
+    recap: document.getElementById('success-recap'),
+    demo: document.getElementById('success-demo'),
+    again: document.getElementById('request-again')
+  };
+
+  const t = FORM_CONFIG.transport;
+  const mode = t.webhook.url ? 'webhook'
+             : (t.telegram.token && t.telegram.chatId) ? 'telegram'
+             : 'demo';
+  els.mode.textContent = mode === 'demo' ? '' : 'Ответим в рабочее время';
+
+  /* маска телефона: +7 (999) 123-45-67 */
+  function formatPhone(value) {
+    let d = value.replace(/\D/g, '');
+    if (!d) return '';
+    if (d[0] === '8') d = '7' + d.slice(1);
+    if (d[0] !== '7') d = '7' + d;
+    d = d.slice(0, 11);
+    let out = '+7';
+    if (d.length > 1) out += ' (' + d.slice(1, 4);
+    if (d.length >= 4) out += ')';
+    if (d.length > 4) out += ' ' + d.slice(4, 7);
+    if (d.length > 7) out += '-' + d.slice(7, 9);
+    if (d.length > 9) out += '-' + d.slice(9, 11);
+    return out;
+  }
+  els.phone.addEventListener('input', (e) => {
+    if (e.inputType && e.inputType.indexOf('delete') === 0) return;
+    els.phone.value = formatPhone(els.phone.value);
+  });
+  els.phone.addEventListener('blur', () => { els.phone.value = formatPhone(els.phone.value); });
+
+  function updateHint() {
+    els.comment.placeholder = FORM_CONFIG.hints[els.interest.value] || FORM_CONFIG.hints.default;
+  }
+  els.interest.addEventListener('change', updateHint);
+
+  function setError(input, msg) {
+    const field = input.closest('.field');
+    const err = field.querySelector('.field__err');
+    field.classList.add('is-invalid');
+    input.setAttribute('aria-invalid', 'true');
+    err.textContent = msg;
+    err.hidden = false;
+  }
+  function clearError(input) {
+    const field = input.closest('.field');
+    if (!field) return;
+    field.classList.remove('is-invalid');
+    input.removeAttribute('aria-invalid');
+    const err = field.querySelector('.field__err');
+    if (err) err.hidden = true;
+  }
+  ['name', 'phone', 'interest', 'consent'].forEach((k) => {
+    els[k].addEventListener(k === 'interest' || k === 'consent' ? 'change' : 'input', () => clearError(els[k]));
+  });
+
+  function validate() {
+    const problems = [];
+    if (els.name.value.trim().length < 2) problems.push([els.name, 'Как к вам обращаться?']);
+    if (els.phone.value.replace(/\D/g, '').length !== 11) problems.push([els.phone, 'Проверьте номер: нужно 10 цифр после +7']);
+    if (!els.interest.value) problems.push([els.interest, 'Выберите, что вас интересует']);
+    if (!els.consent.checked) problems.push([els.consent, 'Без согласия мы не сможем обработать заявку']);
+    problems.forEach(([input, msg]) => setError(input, msg));
+    if (problems.length) problems[0][0].focus();
+    return problems.length === 0;
+  }
+
+  function orderNumber() {
+    const d = new Date();
+    const p = (n) => String(n).padStart(2, '0');
+    return p(d.getDate()) + p(d.getMonth() + 1) + '-' + p(d.getHours()) + p(d.getMinutes());
+  }
+  function rows() {
+    const r = [
+      ['Интересует', els.interest.value],
+      ['Имя', els.name.value.trim()],
+      ['Телефон', els.phone.value.trim()]
+    ];
+    const c = els.comment.value.trim();
+    if (c) r.push(['Комментарий', c]);
+    return r;
+  }
+  function buildText(no) {
+    return ['🏺 Заявка с сайта № ' + no].concat(rows().map((r) => r[0] + ': ' + r[1])).join('\n');
+  }
+  function escTg(s) {
+    return String(s).replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  }
+  function buildHtml(no) {
+    return ['🏺 <b>Заявка с сайта № ' + no + '</b>', '']
+      .concat(rows().map((r) => '<b>' + r[0] + ':</b> ' + escTg(r[1])))
+      .join('\n');
+  }
+
+  async function send(no, text) {
+    if (mode === 'webhook') {
+      const fd = new FormData();
+      fd.append('text', text);
+      fd.append('orderNo', no);
+      ['name', 'phone', 'interest', 'comment'].forEach((k) => fd.append(k, els[k].value.trim()));
+      fd.append('page', location.href);
+      const res = await fetch(t.webhook.url, { method: 'POST', body: fd });
+      if (!res.ok) throw new Error('сервер ответил ' + res.status);
+      return;
+    }
+    if (mode === 'telegram') {
+      const res = await fetch('https://api.telegram.org/bot' + t.telegram.token + '/sendMessage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: t.telegram.chatId, text: buildHtml(no), parse_mode: 'HTML', disable_web_page_preview: true })
+      });
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.description || 'Telegram не принял заявку');
+      return;
+    }
+    await new Promise((r) => setTimeout(r, 600)); /* демо-режим */
+  }
+
+  function showFallback(reason, text) {
+    els.error.innerHTML = '';
+    const p = document.createElement('p');
+    p.textContent = 'Не получилось отправить заявку (' + reason + '). Позвоните нам или напишите в Telegram - текст заявки можно скопировать.';
+    els.error.appendChild(p);
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn btn--ghost btn--sm';
+    btn.textContent = FORM_CONFIG.fallbackTelegram ? 'Скопировать и открыть Telegram' : 'Скопировать текст заявки';
+    btn.addEventListener('click', () => {
+      if (navigator.clipboard) navigator.clipboard.writeText(text).catch(() => {});
+      if (FORM_CONFIG.fallbackTelegram) window.open('https://t.me/' + FORM_CONFIG.fallbackTelegram.replace('@', ''), '_blank', 'noopener');
+      btn.textContent = 'Скопировано';
+    });
+    els.error.appendChild(btn);
+    els.error.hidden = false;
+  }
+
+  function showSuccess(text) {
+    form.hidden = true;
+    els.success.hidden = false;
+    els.successText.textContent = FORM_CONFIG.successText;
+    els.recap.textContent = text;
+    els.demo.hidden = mode !== 'demo';
+    els.success.focus({ preventScroll: true });
+    els.success.scrollIntoView({ behavior: scrollBehavior, block: 'center' });
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    els.error.hidden = true;
+    if (els.website.value) { showSuccess(''); return; }
+    if (!validate()) return;
+    const no = orderNumber();
+    const text = buildText(no);
+    els.submit.disabled = true;
+    els.submit.textContent = 'Отправляем…';
+    try {
+      await send(no, text);
+      showSuccess(text);
+    } catch (err) {
+      showFallback(err.message, text);
+    } finally {
+      els.submit.disabled = false;
+      els.submit.textContent = 'Отправить заявку';
+    }
+  });
+
+  function resetForm() {
+    form.reset();
+    ['name', 'phone', 'interest', 'consent'].forEach((k) => clearError(els[k]));
+    els.error.hidden = true;
+    els.success.hidden = true;
+    form.hidden = false;
+    updateHint();
+  }
+  els.again.addEventListener('click', () => { resetForm(); els.name.focus(); });
+
+  /* ── выбор формата → форма с выбранным пунктом ── */
+  function pickInterest(value, scroll) {
+    if (form.hidden) resetForm();
+    els.interest.value = value;
+    clearError(els.interest);
+    updateHint();
+    if (scroll) document.getElementById('request').scrollIntoView({ behavior: scrollBehavior, block: 'start' });
+    setTimeout(() => els.name.focus({ preventScroll: true }), reduceMotion ? 0 : 650);
+  }
+  document.querySelectorAll('a[data-interest]').forEach((a) => {
+    a.addEventListener('click', (e) => { e.preventDefault(); pickInterest(a.dataset.interest, true); });
+  });
+
+  /* ── ЗАПИСЬ: онлайн-запись, если подключена, иначе форма ── */
+  document.querySelectorAll('.js-book').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const url = BOOKING_LINKS[btn.dataset.booking];
+      if (url) { window.open(url, '_blank', 'noopener'); return; }
+      pickInterest(btn.dataset.interest, true);
+      toast('<b>' + btn.dataset.interest + '</b> - выбрано в форме заявки. Оставьте контакты, и мы пришлём ближайшие даты.');
+    });
+  });
+})();
+</script>
+</body>
+</html>
